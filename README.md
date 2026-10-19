@@ -1,12 +1,12 @@
-# CFMoon SVGator for ChatGPT — template
+# CFMoon SVGator for ChatGPT
 
-This template turns a custom SVGator App created in ChatGPT into a private
+This repo turns a custom MCP App created in ChatGPT into a private
 ChatGPT plugin with CFMoon's complete SVGator animation workflows.
 
 It is an independent CFMoon integration. It is not an official SVGator plugin
-and is not affiliated with or endorsed by SVGator.
+and is not affiliated with SVGator (yet)
 
-## What this template is
+## What this is
 
 The reusable parts are already included:
 
@@ -15,25 +15,34 @@ The reusable parts are already included:
 - A private-App dependency declaration in both plugin manifests.
 - A local preparation script that creates `.app.json` from your ChatGPT App ID.
 
-The template intentionally contains no `.app.json`, real App ID, OAuth token,
+The repo intentionally contains no `.app.json`, real App ID, OAuth token,
 client secret, or `mcp.json`. It cannot be uploaded successfully until you
 personalize it. The generated ZIP uses one connection path: your registered
 ChatGPT App.
 
-## Before you begin
+## How to make this work
+This plugin doesn't include the key auth component, you have to get that one yourself.
+- Enable Developer Mode in the account settings, you'll need a paid account (Plus or higher). The setting changes every time, so here's
+the recommendation:
 
-You need:
+``` text
+In ChatGPT, open Settings, then Apps & Connectors, then Advanced, and toggle Developer Mode on. You only need to do this once per account. 
+qonto
+In the same section, click Create (or Add custom connector) and enter your MCP server URL. Authentication is OAuth, and ChatGPT detects that from the server’s metadata. 
+qonto
+Start a new chat, open the tools/connector picker in the composer, and enable your connector for that conversation.
 
-- Permission to add a custom MCP server in your ChatGPT account or workspace.
-- A custom App created from `https://mcp.svgator.com/mcp` through
-  <https://chatgpt.com/plugins>.
-- A completed SVGator authorization flow for that App.
-- The App's technical ID from the ChatGPT interface. In the tested workspace
-  interface it begins with `asdk_app_`. OpenAI's current documentation also
-  describes a browser-URL form beginning with `plugin_asdk_app`; the preparation
-  script accepts either form.
-- `zip` installed locally. `unzip` is recommended for inspection. Nix users
-  can run `nix develop` to enter a shell with all required tools.
+The toggle has moved around over time. If you don’t see it under connectors, check Settings → Security, or search OpenAI’s help center for “developer mode”. The connectors section may also be labeled “Apps” depending on your version
+```
+
+Once that's done, we can begin the work:
+
+- Add a custom MCP server in your ChatGPT account, using the Plugins tab or the link <https://chatgpt.com/plugins>
+- Look for a button that says "Add" or a Plus icon, the one to create a new Plugin
+- Tap that button and select "Add custom MCP server"
+- Use the SVGator's MCP link to fill the form `https://mcp.svgator.com/mcp`
+- Once your new Plugin/App is created, you'll see it under the Personal tab in the Plugins section. Tap the three dots and select "Manage"
+- You'll see the info about your Plugin/App, and the App ID value. Use that, it should start with "asdk_app..."
 
 Do not paste OAuth tokens, cookies, passwords, or client secrets into this
 template. The only input used by the preparation script is the generated App
@@ -41,17 +50,16 @@ technical ID.
 
 ## Prepare your private ZIP
 
-### 1. Download and extract the template
+### 1. Clone this repo, or download the zip.
 
-Download the ChatGPT template archive from the matching GitHub release and
+Clone this repo and cd into it, or download the ChatGPT template archive from the matching GitHub release and
 extract it. Enter the extracted directory in a terminal.
 
 The release archive is a template, not the final plugin ZIP.
 
 ### 2. Copy the ChatGPT App technical ID
 
-Open the custom App you created in ChatGPT and copy its technical ID. In the
-tested interface, use the full value beginning with `asdk_app_`.
+Recall the previously acquired App ID, copy it, use the full value beginning with `asdk_app_`.
 
 Treat this value as workspace-specific configuration. It is not an OAuth token,
 but do not publish your personalized package or commit the value to Git.
@@ -123,7 +131,11 @@ build with a synthetic App ID. It never needs a real ChatGPT App binding.
 ## Import it into ChatGPT
 
 Use the same private or workspace plugin-import flow that is available to your
-account. When using Plugin Creator in ChatGPT Work:
+account.
+When using manual Plugin Creation:
+1. Enter the Plugins Section, click "Add", upload the zip you created with the command, and that's it.
+
+When using Plugin Creator in ChatGPT Work:
 
 1. Start a Plugin Creator conversation.
 2. Attach the generated ZIP, not the downloaded template archive.
@@ -131,9 +143,6 @@ account. When using Plugin Creator in ChatGPT Work:
 4. Review the package diagnostics and confirm that it finds two skills and one
    App dependency.
 5. Keep the plugin private during testing.
-
-Do not use the public Plugin Directory submission portal for this ZIP. Public
-submission rejects packages containing `apps` or `.app.json` references.
 
 The labels in ChatGPT can vary by account and workspace permissions. If your
 workspace presents an existing private ZIP-import control instead of Plugin
