@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "author": {
+    "email": "business@cfmoon.net",
+    "name": "CFMoon",
+    "url": "https://cfmoon.net"
+  },
+  "description": "Create, inspect, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
+  "extensions": {
+    "com.openai": {
+      "apps": "./.app.json",
+      "interface": {
+        "capabilities": [],
+        "category": "Productivity",
+        "composerIcon": "./assets/cfmoon-svgator-animations.png",
+        "defaultPrompt": [
+          "Verify my SVGator connection without creating, editing, or exporting any projects.",
+          "Help me create an editable SVGator animation. Use the server's motion-design resources and authoring references where available, build the animation, and provide its editor link.",
+          "Inspect an existing SVGator animation and help me refine its timing and easing."
+        ],
+        "developerName": "CFMoon",
+        "displayName": "CFMoon SVGator for ChatGPT",
+        "logo": "./assets/cfmoon-svgator-animations.png",
+        "longDescription": "Create, inspect, refine, and export editable SVG animations through SVGator's hosted MCP server. Connect your own SVGator account through ChatGPT's secure sign-in flow. Projects remain editable in SVGator, and available export formats depend on the connected account's permissions. Developed and maintained by CFMoon as an independent integration; not affiliated with or endorsed by SVGator.",
+        "shortDescription": "Create editable SVG animations"
+      },
+      "onboardingSkill": "./skills/svgator-setup/SKILL.md",
+      "requires_local_executor": false
+    }
+  },
+  "keywords": [
+    "svgator",
+    "animation",
+    "svg",
+    "motion-design",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "name": "cfmoon-svgator-animations-chatgpt",
+  "version": "0.3.2"
+}

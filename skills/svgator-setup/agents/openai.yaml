@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify SVGator"
+  short_description: "Verify your SVGator connection"
+  default_prompt: "Use $svgator-setup to verify my existing SVGator connection without modifying any projects."

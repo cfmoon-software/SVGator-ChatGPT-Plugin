@@ -1,0 +1,17 @@
+# Personalized ChatGPT binding. Never commit or publish this file.
+/.app.json
+
+# Locally generated private plugin archives and build output.
+/cfmoon-svgator-animations-chatgpt-*.zip
+/dist/
+/export/
+
+# Local environment and diagnostic files.
+.env
+.env.*
+!.env.example
+*.log
+
+# Operating-system metadata.
+.DS_Store
+Thumbs.db

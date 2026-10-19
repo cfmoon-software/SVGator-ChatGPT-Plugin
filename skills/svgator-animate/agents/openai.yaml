@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animate with SVGator"
+  short_description: "Build and refine editable SVGator animations"
+  default_prompt: "Use $svgator-animate to create an editable animation from my artwork or brief."
