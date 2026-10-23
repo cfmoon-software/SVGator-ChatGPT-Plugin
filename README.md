@@ -1,6 +1,9 @@
-# CFMoon SVGator for ChatGPT
+# CFMoon SVGator Plugin for ChatGPT
 
 **Create, edit, and export SVGator animations from ChatGPT, using reusable CFMoon workflows.**
+
+
+![SIGNAL STRIKE example animation](assets/signal-strike-demo.gif)
 
 This community plugin combines [SVGator's official MCP server](https://github.com/SVGator/mcp) with two CFMoon skills: one for animation authoring, and one for connection verification. It lets you work conversationally in ChatGPT and then open the same project in SVGator's browser editor for finishing touches.
 
