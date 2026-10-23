@@ -131,6 +131,8 @@ printf '{\n  "apps": {\n    "svgator": {\n      "id": "%s"\n    }\n  }\n}\n' \
     assets/cfmoon-svgator-animations.png \
     skills/svgator-animate/SKILL.md \
     skills/svgator-animate/agents/openai.yaml \
+    skills/svgator-audit/SKILL.md \
+    skills/svgator-audit/agents/openai.yaml \
     skills/svgator-setup/SKILL.md \
     skills/svgator-setup/agents/openai.yaml
 )

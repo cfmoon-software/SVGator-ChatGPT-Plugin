@@ -11,6 +11,7 @@ and generates a personalized ZIP locally. Never commit or distribute that ZIP.
 | `plugin.json` | Root plugin metadata and OpenAI App reference declaration |
 | `.codex-plugin/plugin.json` | Compatibility metadata for plugin import |
 | `skills/svgator-animate/` | SVGator animation authoring and editing guidance |
+| `skills/svgator-audit/` | Read-only project and template inspections |
 | `skills/svgator-setup/` | Read-only SVGator authentication verification |
 | `assets/cfmoon-svgator-animations.png` | Proprietary CFMoon plugin icon |
 | `assets/signal-strike-demo.gif` | README demonstration, not packaged in the private ZIP |
@@ -19,7 +20,7 @@ and generates a personalized ZIP locally. Never commit or distribute that ZIP.
 | `flake.nix` | Nix developer shell and the same reproducible test suite |
 | `.github/workflows/validate.yml` | CI for pull requests and changes to `main` |
 
-The build script always packages these **eight files**, and no others:
+The build script always packages these **ten files**, and no others:
 
 ```text
 plugin.json
@@ -28,6 +29,8 @@ plugin.json
 assets/cfmoon-svgator-animations.png
 skills/svgator-animate/SKILL.md
 skills/svgator-animate/agents/openai.yaml
+skills/svgator-audit/SKILL.md
+skills/svgator-audit/agents/openai.yaml
 skills/svgator-setup/SKILL.md
 skills/svgator-setup/agents/openai.yaml
 ```
@@ -53,7 +56,7 @@ bash scripts/test-package.sh
 
 Tests use only synthetic `asdk_app_Test123` identifiers. They verify
 Bash/ShellCheck syntax, shared metadata consistency across both manifests,
-the precise eight-file allowlist, normalization of the optional `plugin_`
+the precise ten-file allowlist, normalization of the optional `plugin_`
 App ID prefix, rejection of invalid identifiers, mismatched versioned ZIP
 names, and refusal to overwrite existing packages.
 
@@ -81,5 +84,5 @@ establish that authentication, animation playback, or exporting works.
 5. Tell installers to regenerate their private ZIP with their existing App ID.
 
 The CFMoon icon and demonstration GIF are excluded from Apache-2.0; see
-[the artwork notice](../assets/README.md). The generated eight-file ZIP does
+[the artwork notice](../assets/README.md). The generated ten-file ZIP does
 not include that notice by design, and must remain private.

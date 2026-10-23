@@ -34,9 +34,9 @@ private because it contains the installing user's ChatGPT App reference.
 - Do not add `mcp.json` or `.mcp.json` to this ChatGPT template. The generated
   plugin must use exactly one connection path: the user's registered ChatGPT
   App through `.app.json`.
-- The generated private plugin ZIP must contain exactly these eight files:
-  `plugin.json`, `.app.json`, `.codex-plugin/plugin.json`, the icon, both
-  `SKILL.md` files, and both `agents/openai.yaml` files.
+- The generated private plugin ZIP must contain exactly these ten files:
+  `plugin.json`, `.app.json`, `.codex-plugin/plugin.json`, the icon, all three
+  `SKILL.md` files, and all three `agents/openai.yaml` files.
 - Do not add `LICENSE`, `assets/README.md`, or other licensing files to the
   generated private ZIP. The asset notice grants the limited permission needed
   to include the unmodified icon in that archive.
@@ -71,7 +71,7 @@ bash scripts/test-package.sh
 ```
 
 Inspect archive paths without printing `.app.json`. The test asserts the exact
-eight-file allowlist, synchronized manifests, ID normalization, and safe failures.
+ten-file allowlist, synchronized manifests, ID normalization, and safe failures.
 
 ## Release discipline
 
