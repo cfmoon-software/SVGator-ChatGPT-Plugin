@@ -70,16 +70,20 @@ expected_paths=$(printf '%s\n' \
   assets/cfmoon-svgator-animations.png \
   skills/svgator-animate/SKILL.md \
   skills/svgator-animate/agents/openai.yaml \
+  skills/svgator-audit/SKILL.md \
+  skills/svgator-audit/agents/openai.yaml \
   skills/svgator-setup/SKILL.md \
   skills/svgator-setup/agents/openai.yaml | LC_ALL=C sort)
 actual_paths=$(unzip -Z1 "$archive" | LC_ALL=C sort)
 if [[ "$expected_paths" != "$actual_paths" ]]; then
-  printf '%s\n' 'ZIP content differs from the eight-file allowlist.' >&2
+  printf '%s\n' 'ZIP content differs from the ten-file allowlist.' >&2
   diff -u <(printf '%s\n' "$expected_paths") <(printf '%s\n' "$actual_paths") >&2 || true
   exit 1
 fi
 
 unzip -p "$archive" .app.json | jq -e '.apps.svgator.id == "asdk_app_Test123"' >/dev/null
+unzip -p "$archive" skills/svgator-audit/SKILL.md | grep -Fq 'name: svgator-audit'
+unzip -p "$archive" skills/svgator-audit/agents/openai.yaml | grep -Fq 'svgator-audit'
 unzip -p "$archive" plugin.json | jq -e --arg version "$plugin_version" \
   '.version == $version and .extensions["com.openai"].apps == "./.app.json"' >/dev/null
 unzip -p "$archive" .codex-plugin/plugin.json | jq -e --arg version "$plugin_version" \

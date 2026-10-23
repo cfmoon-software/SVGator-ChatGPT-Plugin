@@ -48,7 +48,7 @@ locally before rerunning the builder. Never overwrite a published release file.
 **ChatGPT rejects the ZIP.** Upload the ZIP produced by the preparation script,
 not GitHub's source-code download or a neutral release archive. Its root must
 contain `plugin.json`, `.app.json`, the compatible manifest, the icon,
-and the two skills with their `agents/openai.yaml` files (eight paths total).
+and the three skills with their `agents/openai.yaml` files (ten paths total).
 
 **Plugin import or update controls are missing.** Private plugin import depends
 on the capabilities and permissions of your ChatGPT account or workspace.

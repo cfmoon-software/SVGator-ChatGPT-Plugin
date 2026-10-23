@@ -5,7 +5,7 @@
 
 ![SIGNAL STRIKE example animation](assets/signal-strike-demo.gif)
 
-This community plugin combines [SVGator's official MCP server](https://github.com/SVGator/mcp) with two CFMoon skills: one for animation authoring, and one for connection verification. It lets you work conversationally in ChatGPT and then open the same project in SVGator's browser editor for finishing touches.
+This community plugin combines [SVGator's official MCP server](https://github.com/SVGator/mcp) with three CFMoon skills: one for animation authoring, one for read-only project audits, and one for connection verification. It lets you work conversationally in ChatGPT and then open the same project in SVGator's browser editor for finishing touches.
 
 > **Independent integration.** Built by CFMoon Software. Not an official SVGator plugin and not affiliated with or endorsed by SVGator.
 >
@@ -14,7 +14,7 @@ This community plugin combines [SVGator's official MCP server](https://github.co
 ## What can it do?
 
 - Create and refine animated logos, brand reveals, loaders, motion graphics, and reusable templates.
-- Inspect existing SVGator projects, layers, keyframes, and animation settings.
+- Audit existing projects for editable text, replaceable assets, and template readiness without modifying them.
 - Change text, artwork, colors, timing, and motion through natural-language instructions.
 - Use structured workflows to preserve unrelated layers and keep replacements editable.
 - Export supported formats through SVGator, subject to your SVGator plan.
@@ -26,7 +26,7 @@ This community plugin combines [SVGator's official MCP server](https://github.co
 
 > Duplicate this animation and swap the logo, headline, product image, and brand colors without changing its timing.
 
-> Inspect this SVGator project and tell me whether the text and logo elements are easy for another creator to replace.
+> Audit this project for editable text, replaceable assets, and animation structure. Do not modify or export anything.
 
 ### What powers it?
 
@@ -34,6 +34,7 @@ This community plugin combines [SVGator's official MCP server](https://github.co
 ChatGPT
   └─ CFMoon plugin
        ├─ svgator-animate skill
+       ├─ svgator-audit skill (read-only)
        ├─ svgator-setup skill
        └─ Your registered ChatGPT SVGator App
              └─ SVGator MCP server (OAuth)
@@ -80,7 +81,7 @@ chmod +x ./scripts/prepare-chatgpt-plugin.sh
   './export/'
 ```
 
-Replace the example with your real App ID. If the script succeeds, it creates a **versioned private ZIP** in `./export/` (for this release, `cfmoon-svgator-animations-chatgpt-0.3.3.zip`).
+Replace the example with your real App ID. If the script succeeds, it creates a **versioned private ZIP** in `./export/` (for this release, `cfmoon-svgator-animations-chatgpt-0.4.0.zip`).
 
 **Important:** A ZIP downloaded directly from GitHub is only a *template*. It does not contain your personal `.app.json` connection binding and is not the final plugin to import. The preparation script builds that final archive locally.
 
@@ -91,7 +92,7 @@ Use whichever **private plugin import** method your account supports:
 - **Plugin Creator:** Start a conversation with `@plugin-creator`, attach your newly generated ZIP, and ask it to create a **private** plugin while preserving the packaged skills, metadata, and existing registered App dependency.
 - **Private ZIP upload:** If your account/workspace exposes **Upload plugin**, upload the generated ZIP rather than the source archive.
 
-Review the result. It should contain **two skills** and **one App dependency**. An ordinary custom SVGator connection and the CFMoon workflow plugin may both appear; keep the underlying App because the CFMoon package references it.
+Review the result. It should contain **three skills** and **one App dependency**. An ordinary custom SVGator connection and the CFMoon workflow plugin may both appear; keep the underlying App because the CFMoon package references it.
 
 If your account doesn't offer either installation route, don't try to turn this private package into a public directory submission. See the [official plugin documentation](https://help.openai.com/en/articles/20001256-plugins-in-chatgpt) for available installation options.
 
@@ -104,6 +105,10 @@ Start a **new conversation** with the installed CFMoon plugin selected and ask:
 The setup workflow performs a harmless connectivity check and an authenticated account read. A plugin appearing in your directory is **not**, by itself, proof that the SVGator connection is authorized.
 
 **You're ready.** Try one of the prompts above, or ask for an editor link to a project you already own.
+
+## Read-only project audits
+
+Ask the `svgator-audit` skill to inspect an existing project without modifying, duplicating, rendering, or exporting it. The report separates **verified facts** (element types, names, animator channels, project settings), **potential issues**, and **unverified aspects** (visual playback, font portability, commercial rights, and whether another brand truly works). The audit is an evidence-backed inspection, not an automatic quality certification.
 
 ## Built with ChatGPT, tested with SIGNAL STRIKE
 

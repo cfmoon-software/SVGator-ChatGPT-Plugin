@@ -7,6 +7,7 @@
     "defaultPrompt": [
       "Verify my SVGator connection without creating, editing, or exporting any projects.",
       "Help me create an editable SVGator animation. Use the server's motion-design resources and authoring references where available, build the animation, and provide its editor link.",
+      "Audit an existing SVGator project for editability, replaceable assets, animation structure, and template readiness without modifying or exporting it.",
       "Inspect an existing SVGator animation and help me refine its timing and easing."
     ],
     "developerName": "CFMoon",
@@ -22,7 +23,7 @@
     }
   },
   "name": "cfmoon-svgator-animations-chatgpt",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Create, inspect, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
   "author": {
     "name": "CFMoon",

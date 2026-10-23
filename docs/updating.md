@@ -24,8 +24,8 @@ update should **not** require creating another App or repeating SVGator OAuth.
 5. Inspect the archive paths without displaying its `.app.json` contents:
 
    ```sh
-   unzip -t ./export/cfmoon-svgator-animations-chatgpt-0.3.3.zip
-   unzip -l ./export/cfmoon-svgator-animations-chatgpt-0.3.3.zip
+   unzip -t ./export/cfmoon-svgator-animations-chatgpt-0.4.0.zip
+   unzip -l ./export/cfmoon-svgator-animations-chatgpt-0.4.0.zip
    ```
 
    Replace the example filename with the current manifest-derived version.
