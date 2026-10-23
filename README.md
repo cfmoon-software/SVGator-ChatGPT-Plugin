@@ -44,7 +44,7 @@ The plugin **does not host, replace, or redistribute** SVGator's MCP server. It 
 
 ## Install
 
-You'll need a **SVGator account**, access to **custom MCP connections in ChatGPT**, permission to install or import a **private plugin**, and a terminal with **Bash** and **zip**. ChatGPT menus and installation permissions vary by account and workspace.
+You'll need a **SVGator account**, access to **custom MCP connections in ChatGPT**, permission to install or import a **private plugin**, and a terminal with **Bash**, **jq**, and **zip**. ChatGPT menus and installation permissions vary by account and workspace.
 
 ### 1. Connect SVGator to ChatGPT
 
@@ -80,7 +80,7 @@ chmod +x ./scripts/prepare-chatgpt-plugin.sh
   './export/'
 ```
 
-Replace the example with your real App ID. If the script succeeds, it creates a **versioned private ZIP** in `./export/` (for this release, `cfmoon-svgator-animations-chatgpt-0.3.2.zip`).
+Replace the example with your real App ID. If the script succeeds, it creates a **versioned private ZIP** in `./export/` (for this release, `cfmoon-svgator-animations-chatgpt-0.3.3.zip`).
 
 **Important:** A ZIP downloaded directly from GitHub is only a *template*. It does not contain your personal `.app.json` connection binding and is not the final plugin to import. The preparation script builds that final archive locally.
 
@@ -131,4 +131,4 @@ The repository's code, configuration, documentation, and skills are licensed und
 
 `assets/cfmoon-svgator-animations.png`, the CFMoon name, and CFMoon branding are **not** covered by Apache-2.0. The included illustration may be redistributed **unchanged** only with this template or a generated private plugin archive, subject to its repository asset notice. No trademark rights are granted.
 
-The package manifest's Apache-2.0 field describes the reusable plugin implementation, **not** the excluded artwork. Generated private ZIPs intentionally contain the required plugin files rather than the entire source repository.
+The package manifest's Apache-2.0 field describes the reusable plugin implementation, **not** the excluded artwork. Generated private ZIPs intentionally contain the required plugin files rather than the entire source repository. The SIGNAL STRIKE demo GIF is also excluded from Apache-2.0; see [the asset notice](assets/README.md).

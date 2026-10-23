@@ -22,7 +22,7 @@
     }
   },
   "name": "cfmoon-svgator-animations-chatgpt",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Create, inspect, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
   "author": {
     "name": "CFMoon",
