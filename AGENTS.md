@@ -19,6 +19,7 @@ private because it contains the installing user's ChatGPT App reference.
   identity, version, presentation, and App dependency synchronized with the
   root manifest.
 - `scripts/prepare-chatgpt-plugin.sh` is the only supported package builder.
+- `scripts/test-package.sh` is the portable validation suite used by CI and Nix.
 - `skills/` contains the reusable SVGator workflows. Preserve their names and
   invocation intent unless a requested change explicitly updates them.
 - `LICENSE` applies Apache-2.0 to the code, documentation, configuration, and
@@ -61,26 +62,16 @@ private because it contains the installing user's ChatGPT App reference.
 
 ## Verification
 
-Preferred:
+Run either of these equivalent checks:
 
 ```sh
 nix flake check
+# or, with Bash, jq, ShellCheck, zip and unzip installed:
+bash scripts/test-package.sh
 ```
 
-Focused fallback when Nix is unavailable:
-
-```sh
-bash -n scripts/prepare-chatgpt-plugin.sh
-shellcheck scripts/prepare-chatgpt-plugin.sh
-./scripts/prepare-chatgpt-plugin.sh \
-  asdk_app_Test123 \
-  /tmp/cfmoon-svgator-chatgpt-test.zip
-unzip -t /tmp/cfmoon-svgator-chatgpt-test.zip
-```
-
-Inspect archive paths without printing `.app.json`. Confirm there are exactly
-eight files and no MCP manifest, README, license file, script, or credential
-material.
+Inspect archive paths without printing `.app.json`. The test asserts the exact
+eight-file allowlist, synchronized manifests, ID normalization, and safe failures.
 
 ## Release discipline
 

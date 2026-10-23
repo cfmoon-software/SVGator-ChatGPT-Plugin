@@ -39,6 +39,11 @@ if [[ ! "$manifest_app_id" =~ ^asdk_app_[A-Za-z0-9][A-Za-z0-9_-]*$ ]]; then
   exit 2
 fi
 
+if ! command -v jq >/dev/null 2>&1; then
+  printf '%s\n' 'Error: jq is required to read the plugin manifests.' >&2
+  exit 1
+fi
+
 if ! command -v zip >/dev/null 2>&1; then
   printf '%s\n' 'Error: zip is required to prepare the ChatGPT plugin archive.' >&2
   exit 1
@@ -47,15 +52,12 @@ fi
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 template_dir=$(cd -- "$script_dir/.." && pwd)
 
-plugin_name=$(sed -n 's/^  "name": "\([^"]*\)",*$/\1/p' "$template_dir/plugin.json")
-plugin_version=$(sed -n 's/^  "version": "\([^"]*\)",*$/\1/p' "$template_dir/plugin.json")
-
-if [[ -z "$plugin_name" || "$plugin_name" == *$'\n'* ]]; then
+if ! plugin_name=$(jq -er '.name | strings' "$template_dir/plugin.json"); then
   printf '%s\n' 'Error: could not read one top-level plugin name from plugin.json.' >&2
   exit 1
 fi
 
-if [[ -z "$plugin_version" || "$plugin_version" == *$'\n'* ]]; then
+if ! plugin_version=$(jq -er '.version | strings' "$template_dir/plugin.json"); then
   printf '%s\n' 'Error: could not read one top-level plugin version from plugin.json.' >&2
   exit 1
 fi
