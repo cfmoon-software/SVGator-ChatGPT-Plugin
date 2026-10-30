@@ -138,4 +138,4 @@ printf '{\n  "apps": {\n    "svgator": {\n      "id": "%s"\n    }\n  }\n}\n' \
 )
 
 printf 'Created private ChatGPT plugin archive: %s\n' "$output_path"
-printf '%s\n' 'The App ID was embedded without being printed. Do not publish the generated ZIP.'
+printf '%s\n' 'The App ID was embedded without being printed.'

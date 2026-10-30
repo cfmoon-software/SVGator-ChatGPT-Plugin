@@ -1,0 +1,12 @@
+interface:
+  display_name: "Connect SVGator"
+  short_description: "Connect and verify your SVGator account"
+  default_prompt: "Use $svgator-setup to connect and verify my SVGator account without modifying any projects."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "svgator"
+      description: "SVGator hosted MCP server"
+      transport: "streamable_http"
+      url: "https://mcp.svgator.com/mcp"

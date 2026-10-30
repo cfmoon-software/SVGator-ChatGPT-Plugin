@@ -26,6 +26,8 @@ bash -n "$repo_dir/scripts/prepare-chatgpt-plugin.sh"
 shellcheck "$repo_dir/scripts/prepare-chatgpt-plugin.sh"
 bash -n "$repo_dir/scripts/test-package.sh"
 shellcheck "$repo_dir/scripts/test-package.sh"
+bash -n "$repo_dir/scripts/test-codex-package.sh"
+shellcheck "$repo_dir/scripts/test-codex-package.sh"
 
 # Verify all portable metadata duplicated across the two different manifest layouts.
 jq -e 'type == "object" and (.name | type == "string") and (.version | type == "string")' \
@@ -113,3 +115,5 @@ fi
 
 printf 'Package checks passed: %s (%s entries)\n' \
   "$plugin_name-$plugin_version.zip" "$(unzip -Z1 "$archive" | wc -l | tr -d ' ')"
+
+bash "$repo_dir/scripts/test-codex-package.sh"

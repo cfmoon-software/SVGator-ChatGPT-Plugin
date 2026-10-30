@@ -1,14 +1,16 @@
-# CFMoon SVGator ChatGPT Template Agent Instructions
+# CFMoon SVGator Monorepo Agent Instructions
 
 ## Repository purpose
 
-This repository distributes an independent CFMoon template for building a
-private ChatGPT plugin backed by a custom SVGator App. It is not an official
-SVGator integration and must not imply affiliation with or endorsement by
-SVGator.
+This repository distributes two independent CFMoon integrations around
+SVGator's hosted MCP server: a template for building a private ChatGPT plugin
+backed by a custom SVGator App, and a neutral installable Codex plugin. It is
+not an official SVGator integration and must not imply affiliation with or
+endorsement by SVGator.
 
-The repository itself is public and reusable. Each generated plugin ZIP is
-private because it contains the installing user's ChatGPT App reference.
+The repository itself and the Codex target are public and reusable. Each
+generated ChatGPT plugin ZIP is private because it contains the installing
+user's ChatGPT App reference.
 
 ## Source of truth
 
@@ -20,6 +22,12 @@ private because it contains the installing user's ChatGPT App reference.
   root manifest.
 - `scripts/prepare-chatgpt-plugin.sh` is the only supported package builder.
 - `scripts/test-package.sh` is the portable validation suite used by CI and Nix.
+- `codex/plugin.json` owns the Codex plugin identity and OpenAI presentation.
+- `codex/mcp.json` owns the single direct SVGator MCP connection used by Codex.
+- `codex/.codex-plugin/plugin.json` is the Codex compatibility manifest.
+- `.agents/plugins/marketplace.json` exposes the Codex target to the repository
+  marketplace.
+- `scripts/test-codex-package.sh` validates the Codex package and marketplace.
 - `skills/` contains the reusable SVGator workflows. Preserve their names and
   invocation intent unless a requested change explicitly updates them.
 - `LICENSE` applies Apache-2.0 to the code, documentation, configuration, and
@@ -31,9 +39,12 @@ private because it contains the installing user's ChatGPT App reference.
   cookie, password, client secret, or authenticated session.
 - Use only obvious synthetic IDs such as `asdk_app_Test123` in checks.
 - Keep `/.app.json` and generated private ZIPs ignored by Git.
-- Do not add `mcp.json` or `.mcp.json` to this ChatGPT template. The generated
-  plugin must use exactly one connection path: the user's registered ChatGPT
-  App through `.app.json`.
+- Do not add root-level `mcp.json` or `.mcp.json` to the ChatGPT template. The
+  generated ChatGPT plugin must use exactly one connection path: the user's
+  registered ChatGPT App through `.app.json`.
+- The Codex target must contain no `.app.json` or ChatGPT App ID. It uses
+  exactly one connection path: `codex/mcp.json` pointing to SVGator's hosted
+  Streamable HTTP endpoint with OAuth/DCR.
 - The generated private plugin ZIP must contain exactly these ten files:
   `plugin.json`, `.app.json`, `.codex-plugin/plugin.json`, the icon, all three
   `SKILL.md` files, and all three `agents/openai.yaml` files.
@@ -41,11 +52,13 @@ private because it contains the installing user's ChatGPT App reference.
   generated private ZIP. The asset notice grants the limited permission needed
   to include the unmodified icon in that archive.
 - Do not publish, attach to a release, or commit a generated private ZIP.
-- A GitHub release asset is the neutral repository template archive, never the
+- A GitHub release asset is the neutral monorepo source archive, never the
   personalized ChatGPT upload archive.
 - Keep the CFMoon publisher identity and the independent-integration disclaimer.
 - Keep the icon excluded from Apache-2.0. The manifest license field describes
   the reusable implementation and does not override `assets/README.md`.
+- Keep the Codex target self-contained and its marketplace source path at
+  `./codex`. Do not use symlinks or paths that escape the plugin root.
 - External uploads, GitHub releases, workspace changes, and ChatGPT publication
   require explicit user approval.
 
@@ -53,9 +66,12 @@ private because it contains the installing user's ChatGPT App reference.
 
 1. Inspect the working tree and preserve unrelated user work.
 2. Make the smallest change needed in the repository source.
-3. When identity, display metadata, or version changes, update both manifests.
+3. When ChatGPT identity, display metadata, or version changes, update both
+   root manifests. When Codex metadata changes, update both Codex manifests.
+   Keep target versions aligned for a shared release.
 4. Keep `README.md` instructions aligned with actual script behavior.
-5. Run the focused checks below with synthetic data.
+5. Run the focused checks below with synthetic data. They validate both host
+   targets.
 6. Rebuild and inspect the neutral template archive after any source change.
 7. Report host behavior separately from local package verification. A valid ZIP
    does not prove that ChatGPT or SVGator authorization works.
@@ -71,14 +87,17 @@ bash scripts/test-package.sh
 ```
 
 Inspect archive paths without printing `.app.json`. The test asserts the exact
-ten-file allowlist, synchronized manifests, ID normalization, and safe failures.
+ten-file ChatGPT allowlist, the eleven-file Codex allowlist, synchronized
+manifests, ID normalization, marketplace and OAuth/DCR configuration, and safe
+failures.
 
 ## Release discipline
 
-- Follow semantic versioning and keep both manifests on the same version.
+- Follow semantic versioning, keep both manifests for each target synchronized,
+  and keep ChatGPT and Codex versions aligned for shared releases.
 - Keep the Apache-2.0 `LICENSE`, the separate `assets/README.md` notice, and the
   manifest metadata intact.
-- Build the neutral release archive outside the repository directory so the
+- Build the neutral monorepo source archive outside the repository directory so the
   archive cannot include itself.
 - Include both `LICENSE` and `assets/README.md` in the neutral repository
   template archive; they are excluded only from the personalized upload ZIP.

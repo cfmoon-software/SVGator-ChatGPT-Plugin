@@ -1,6 +1,6 @@
-# CFMoon SVGator Plugin for ChatGPT
+# CFMoon SVGator Plugin for ChatGPT and Codex
 
-**Create, edit, and export SVGator animations from ChatGPT, using reusable CFMoon workflows.**
+**Create, audit, edit, and export SVGator animations from ChatGPT or Codex, using reusable CFMoon workflows.**
 
 
 ![SIGNAL STRIKE example animation](assets/signal-strike-demo.gif)
@@ -9,7 +9,7 @@ This community plugin combines [SVGator's official MCP server](https://github.co
 
 > **Independent integration.** Built by CFMoon Software. Not an official SVGator plugin and not affiliated with or endorsed by SVGator.
 >
-> **Installation status:** Self-configured, private ChatGPT plugin. Each user connects their own SVGator account and creates their own plugin ZIP. This is **not** a one-click public installation.
+> **Installation status:** Codex users install the repository's neutral plugin and authorize SVGator directly. ChatGPT web users create a private App-backed ZIP with their own registered App ID. This is **not** an official or public SVGator integration.
 
 ## What can it do?
 
@@ -31,19 +31,47 @@ This community plugin combines [SVGator's official MCP server](https://github.co
 ### What powers it?
 
 ```text
-ChatGPT
-  └─ CFMoon plugin
+ChatGPT or Codex
+  └─ CFMoon workflows
        ├─ svgator-animate skill
        ├─ svgator-audit skill (read-only)
        ├─ svgator-setup skill
-       └─ Your registered ChatGPT SVGator App
-             └─ SVGator MCP server (OAuth)
-                   └─ Your SVGator projects
+       └─ Host-specific connection
+            ├─ ChatGPT: registered App → SVGator MCP (OAuth)
+            └─ Codex: packaged connection → SVGator MCP (OAuth/DCR)
+                 └─ Your SVGator projects
 ```
 
-The plugin **does not host, replace, or redistribute** SVGator's MCP server. It adds repeatable workflows around the server you authorize in your own ChatGPT account.
+The plugin **does not host, replace, or redistribute** SVGator's MCP server. It adds repeatable workflows around the server you authorize in your own account.
 
-## Install
+## Install in Codex
+
+You'll need a **SVGator account** and a Codex client with plugin support. Plugins
+can be installed through Codex CLI or the ChatGPT desktop app; they are not
+currently available in the IDE extension.
+
+Register this repository as a marketplace and install its Codex target:
+
+```sh
+codex plugin marketplace add cfmoon-software/SVGator-ChatGPT-Plugin
+codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+```
+
+Start a fresh Codex conversation after installation. Complete SVGator's secure
+OAuth flow when Codex prompts you, then ask:
+
+> Verify my SVGator connection without creating, editing, or exporting any projects.
+
+The Codex package already declares `https://mcp.svgator.com/mcp`. Do not add the
+same endpoint separately with `codex mcp add`; duplicate declarations can cause
+duplicate tools and sign-in prompts. The Codex package contains no ChatGPT App
+ID or account credential. If you previously installed
+`cfmoon-svgator-animations` from another local marketplace, disable or remove
+that older package before enabling this one.
+
+For local development from a checkout, see [Development and package structure](docs/development.md).
+
+## Install in ChatGPT
 
 You'll need a **SVGator account**, access to **custom MCP connections in ChatGPT**, permission to install or import a **private plugin**, and a terminal with **Bash**, **jq**, and **zip**. ChatGPT menus and installation permissions vary by account and workspace.
 
@@ -125,10 +153,10 @@ We used the integration to create and refine **SIGNAL STRIKE**, a reusable cyber
 ## Security and privacy
 
 - **Never share** OAuth tokens, passwords, cookies, client secrets, or personalized plugin ZIPs.
-- The repository intentionally omits `.app.json`, actual App IDs, OAuth credentials, and `mcp.json`.
+- The ChatGPT template intentionally omits `.app.json`, actual App IDs, OAuth credentials, and root-level `mcp.json`. The separate `codex/` target contains only a neutral MCP endpoint and OAuth/DCR declaration—never credentials.
 - The preparation script creates the App binding **inside your locally generated archive**.
 - Don't print `.app.json` in screenshots, terminal logs, or public support requests.
-- SVGator authentication is handled through the registered SVGator MCP connection, not by the CFMoon repository.
+- SVGator authentication is handled through the host's registered or packaged MCP connection, not by the CFMoon repository.
 
 ## License
 

@@ -1,5 +1,5 @@
 {
-  description = "CFMoon SVGator for ChatGPT template development environment";
+  description = "CFMoon SVGator plugins for ChatGPT and Codex development environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

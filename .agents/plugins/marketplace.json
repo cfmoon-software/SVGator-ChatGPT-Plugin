@@ -1,0 +1,20 @@
+{
+  "name": "cfmoon-svgator",
+  "interface": {
+    "displayName": "CFMoon SVGator"
+  },
+  "plugins": [
+    {
+      "name": "cfmoon-svgator-animations",
+      "source": {
+        "source": "local",
+        "path": "./codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

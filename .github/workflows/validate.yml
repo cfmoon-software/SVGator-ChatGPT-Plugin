@@ -1,4 +1,4 @@
-name: Validate plugin template
+name: Validate plugin targets
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   package:
-    name: Portable package tests
+    name: ChatGPT and Codex package tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y jq shellcheck zip unzip
-      - name: Lint manifests and exercise private ZIP builder
+      - name: Validate both targets and exercise private ZIP builder
         run: bash scripts/test-package.sh
 
   nix:

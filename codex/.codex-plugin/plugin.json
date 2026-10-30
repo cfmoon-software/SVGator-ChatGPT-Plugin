@@ -1,0 +1,41 @@
+{
+  "interface": {
+    "capabilities": [],
+    "category": "Productivity",
+    "composerIcon": "./assets/cfmoon-svgator-animations.png",
+    "defaultPrompt": [
+      "Verify my SVGator connection without creating, editing, or exporting any projects.",
+      "Help me create an editable SVGator animation. Use the server's motion-design resources and authoring references where available, build the animation, and provide its editor link.",
+      "Audit an existing SVGator project for editability, replaceable assets, animation structure, and template readiness without modifying or exporting it.",
+      "Inspect an existing SVGator animation and help me refine its timing and easing."
+    ],
+    "developerName": "CFMoon",
+    "displayName": "CFMoon SVGator Animations",
+    "logo": "./assets/cfmoon-svgator-animations.png",
+    "longDescription": "Create, inspect, audit, refine, and export editable SVG animations through SVGator's hosted MCP server. Connect your own SVGator account through Codex's secure OAuth flow. Projects remain editable in SVGator, and available export formats depend on the connected account's permissions. Developed and maintained by CFMoon as an independent integration; not affiliated with or endorsed by SVGator.",
+    "shortDescription": "Create editable SVG animations"
+  },
+  "requires_local_executor": false,
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/svgator-setup/SKILL.md"
+    }
+  },
+  "name": "cfmoon-svgator-animations",
+  "version": "0.4.0",
+  "description": "Create, inspect, audit, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
+  "author": {
+    "name": "CFMoon",
+    "email": "business@cfmoon.net",
+    "url": "https://cfmoon.net"
+  },
+  "keywords": [
+    "svgator",
+    "animation",
+    "svg",
+    "motion-design",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "skills": "./skills/"
+}

@@ -1,8 +1,14 @@
 # Development and package structure
 
-This repository is the **neutral source template**, not an installable private
-plugin by itself. Every installer registers their own SVGator MCP App in ChatGPT
-and generates a personalized ZIP locally. Never commit or distribute that ZIP.
+This repository contains two host-specific targets built around the same three
+SVGator workflows:
+
+- The repository root is the neutral ChatGPT source template. Each ChatGPT
+  installer registers their own SVGator App and generates a personalized ZIP.
+- `codex/` is an installable Codex plugin. It declares SVGator's hosted MCP
+  endpoint and lets each user complete OAuth/DCR through Codex.
+
+Never commit or distribute a personalized ChatGPT ZIP.
 
 ## Source layout
 
@@ -19,6 +25,9 @@ and generates a personalized ZIP locally. Never commit or distribute that ZIP.
 | `scripts/test-package.sh` | Portable manifest, safety and build contract tests |
 | `flake.nix` | Nix developer shell and the same reproducible test suite |
 | `.github/workflows/validate.yml` | CI for pull requests and changes to `main` |
+| `codex/` | Self-contained Codex plugin with direct SVGator OAuth/DCR MCP configuration |
+| `.agents/plugins/marketplace.json` | Repository marketplace entry for Codex installation |
+| `scripts/test-codex-package.sh` | Codex manifests, marketplace, MCP and file-contract checks |
 
 The build script always packages these **ten files**, and no others:
 
@@ -58,26 +67,52 @@ Tests use only synthetic `asdk_app_Test123` identifiers. They verify
 Bash/ShellCheck syntax, shared metadata consistency across both manifests,
 the precise ten-file allowlist, normalization of the optional `plugin_`
 App ID prefix, rejection of invalid identifiers, mismatched versioned ZIP
-names, and refusal to overwrite existing packages.
+names, and refusal to overwrite existing packages. The same suite also checks
+the Codex target's eleven-file allowlist, direct OAuth/DCR MCP declaration,
+marketplace entry, manifest synchronization, absence of ChatGPT App IDs, and
+shared icon and workflow files.
 
-The test does not contact SVGator or ChatGPT, and passing it does **not**
+The test does not contact SVGator, ChatGPT, or Codex, and passing it does **not**
 establish that authentication, animation playback, or exporting works.
+
+## Test the Codex target locally
+
+Run the full portable suite first, then register the checkout as a temporary
+local marketplace using your normal Codex profile:
+
+```sh
+bash scripts/test-package.sh
+codex plugin marketplace add .
+codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+```
+
+Start a fresh conversation, complete the SVGator OAuth flow, and run the
+read-only connection verification. Local package checks do not replace that
+host test. Avoid adding a separate standalone SVGator MCP server alongside the
+plugin, and disable any older installation from another marketplace before
+testing this target.
 
 ## Making changes
 
 1. Work on a feature branch. Preserve existing App and OAuth security rules.
-2. Edit the source files in `skills/` rather than a generated ZIP.
-3. For metadata or version changes, update **both** manifests.
+2. Edit the ChatGPT source files in `skills/` rather than a generated ZIP.
+   Keep the portable animation and audit workflows synchronized with their
+   copies under `codex/skills/`; the two setup skills intentionally differ by
+   host.
+3. For ChatGPT metadata or version changes, update both root manifests. For
+   Codex metadata changes, update both manifests under `codex/`. Keep target
+   versions aligned for a shared release.
 4. Keep README and these documentation pages aligned with supported commands.
 5. Run `bash scripts/test-package.sh` or `nix flake check`.
 6. Open a pull request and review GitHub Actions checks before merging.
-7. Test installation and a harmless authenticated SVGator read separately.
+7. Test ChatGPT and Codex installation and a harmless authenticated SVGator
+   read separately.
 
 ## Release procedure
 
 1. Bump semantic version in both manifests and document behavior changes.
 2. Confirm the CI checks pass on the proposed release commit.
-3. Build a **neutral source-template archive** with the repository files,
+3. Build a **neutral monorepo source archive** with the repository files,
    including `LICENSE` and `assets/README.md`. Do not include personalized
    `.app.json` or a private plugin ZIP.
 4. Calculate and publish a SHA-256 checksum for that neutral archive.

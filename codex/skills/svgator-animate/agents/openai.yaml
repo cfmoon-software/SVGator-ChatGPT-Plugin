@@ -1,0 +1,12 @@
+interface:
+  display_name: "Animate with SVGator"
+  short_description: "Build and refine editable SVGator animations"
+  default_prompt: "Use $svgator-animate to create an editable animation from my artwork or brief."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "svgator"
+      description: "SVGator hosted MCP server"
+      transport: "streamable_http"
+      url: "https://mcp.svgator.com/mcp"

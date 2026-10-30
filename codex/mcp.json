@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "svgator": {
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "client": {
+              "mode": "dcr"
+            },
+            "type": "oauth"
+          }
+        }
+      },
+      "type": "streamable-http",
+      "url": "https://mcp.svgator.com/mcp"
+    }
+  }
+}

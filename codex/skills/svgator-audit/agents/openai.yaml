@@ -1,0 +1,12 @@
+interface:
+  display_name: "Audit SVGator Project"
+  short_description: "Check editability and template readiness without changes"
+  default_prompt: "Use $svgator-audit to inspect my existing SVGator project for editable text, replaceable assets, motion structure, and template readiness without changing or exporting it."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "svgator"
+      description: "SVGator hosted MCP server"
+      transport: "streamable_http"
+      url: "https://mcp.svgator.com/mcp"
