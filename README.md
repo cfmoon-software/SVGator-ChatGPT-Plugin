@@ -48,7 +48,7 @@ Register this repository as a marketplace, then install its Codex target:
 
 ```sh
 codex plugin marketplace add cfmoon-software/SVGator-ChatGPT-Plugin
-codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+codex plugin add cfmoon-svgator-animations@cfmoon-software
 ```
 
 See the [complete Codex installation and maintenance guide](codex/README.md)

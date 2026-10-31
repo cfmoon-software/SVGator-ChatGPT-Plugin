@@ -49,13 +49,16 @@ jq -e '
 ' "$codex_dir/mcp.json" >/dev/null
 
 jq -e '
-  .name == "cfmoon-svgator-animations" and
-  .source.source == "local" and
-  .source.path == "./codex" and
-  .policy.installation == "AVAILABLE" and
-  .policy.authentication == "ON_INSTALL" and
-  .category == "Productivity"
-' < <(jq '.plugins[0]' "$repo_dir/.agents/plugins/marketplace.json") >/dev/null
+  .name == "cfmoon-software" and
+  .interface.displayName == "CFMoon Software" and
+  (.plugins | length) == 1 and
+  .plugins[0].name == "cfmoon-svgator-animations" and
+  .plugins[0].source.source == "local" and
+  .plugins[0].source.path == "./codex" and
+  .plugins[0].policy.installation == "AVAILABLE" and
+  .plugins[0].policy.authentication == "ON_INSTALL" and
+  .plugins[0].category == "Productivity"
+' "$repo_dir/.agents/plugins/marketplace.json" >/dev/null
 
 chatgpt_version=$(jq -er '.version' "$repo_dir/plugin.json")
 codex_version=$(jq -er '.version' "$codex_dir/plugin.json")

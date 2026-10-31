@@ -85,7 +85,7 @@ local marketplace using your normal Codex profile:
 ```sh
 bash scripts/test-package.sh
 codex plugin marketplace add .
-codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+codex plugin add cfmoon-svgator-animations@cfmoon-software
 ```
 
 Start a fresh conversation, complete the SVGator OAuth flow, and run the

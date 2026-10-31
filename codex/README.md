@@ -4,10 +4,6 @@ Install and maintain the Codex target from the CFMoon SVGator monorepo. For the
 project overview, capabilities, ChatGPT setup, and licensing, see the
 [main README](../README.md).
 
-> **Independent integration.** Developed and maintained by CFMoon Software.
-> This is not an official SVGator plugin and is not affiliated with or endorsed
-> by SVGator.
-
 This directory is the self-contained Codex plugin target. It packages the three
 SVGator workflows and one OAuth/DCR connection to SVGator's hosted MCP server.
 
@@ -21,11 +17,11 @@ SVGator workflows and one OAuth/DCR connection to SVGator's hosted MCP server.
 ## Install from the marketplace (recommended)
 
 Add the repository as a Git marketplace, then install the plugin exposed by its
-`cfmoon-svgator` marketplace:
+`cfmoon-software` marketplace:
 
 ```sh
 codex plugin marketplace add cfmoon-software/SVGator-ChatGPT-Plugin
-codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+codex plugin add cfmoon-svgator-animations@cfmoon-software
 ```
 
 Confirm the installation:
@@ -34,7 +30,7 @@ Confirm the installation:
 codex plugin list --json
 ```
 
-Look for `cfmoon-svgator-animations@cfmoon-svgator` in the installed plugins.
+Look for `cfmoon-svgator-animations@cfmoon-software` in the installed plugins.
 
 ## Install from a checkout
 
@@ -45,12 +41,28 @@ register that directory instead of the GitHub source:
 git clone https://github.com/cfmoon-software/SVGator-ChatGPT-Plugin.git
 cd SVGator-ChatGPT-Plugin
 codex plugin marketplace add .
-codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+codex plugin add cfmoon-svgator-animations@cfmoon-software
 ```
 
 This is useful for contributors, local testing, or installing a checked-out
 branch. Codex resolves the marketplace's `./codex` source path relative to the
 repository root.
+
+## Migrate from the old marketplace name
+
+Installations created before the marketplace rename use the old
+`cfmoon-svgator` namespace. Remove that installed copy and marketplace source,
+then register the repository again and install from `cfmoon-software`:
+
+```sh
+codex plugin remove cfmoon-svgator-animations@cfmoon-svgator
+codex plugin marketplace remove cfmoon-svgator
+codex plugin marketplace add cfmoon-software/SVGator-ChatGPT-Plugin
+codex plugin add cfmoon-svgator-animations@cfmoon-software
+```
+
+This changes only the local marketplace registration and installed plugin copy.
+It does not delete SVGator projects or revoke the SVGator account authorization.
 
 ## Connect SVGator and verify access
 
@@ -98,7 +110,7 @@ Removing a plugin does not delete projects stored in your SVGator account.
 For the recommended Git marketplace installation, refresh the marketplace:
 
 ```sh
-codex plugin marketplace upgrade cfmoon-svgator
+codex plugin marketplace upgrade cfmoon-software
 ```
 
 Then start a new conversation so Codex loads the refreshed skills and tools.
@@ -109,8 +121,8 @@ local plugin so its cached copy is refreshed:
 
 ```sh
 git pull --ff-only
-codex plugin remove cfmoon-svgator-animations@cfmoon-svgator
-codex plugin add cfmoon-svgator-animations@cfmoon-svgator
+codex plugin remove cfmoon-svgator-animations@cfmoon-software
+codex plugin add cfmoon-svgator-animations@cfmoon-software
 ```
 
 ## Uninstall
@@ -118,14 +130,24 @@ codex plugin add cfmoon-svgator-animations@cfmoon-svgator
 Remove the plugin first, then optionally remove the marketplace source:
 
 ```sh
-codex plugin remove cfmoon-svgator-animations@cfmoon-svgator
-codex plugin marketplace remove cfmoon-svgator
+codex plugin remove cfmoon-svgator-animations@cfmoon-software
+codex plugin marketplace remove cfmoon-software
 ```
 
 This removes Codex's installed plugin files and marketplace registration. It
 does not delete SVGator projects.
 
 ## Troubleshooting
+
+**Support boundary.** CFMoon Software develops and maintains this independent
+integration. Report issues here when they involve the marketplace package,
+installation or update instructions, bundled skills, or packaged SVGator
+connection configuration.
+
+SVGator owns its hosted MCP service, API, accounts, plans, project data, and
+export availability. OpenAI owns Codex client and marketplace behavior. CFMoon
+can help identify which boundary is failing, but cannot fix upstream service or
+host problems.
 
 - **Plugin is not listed:** run `codex plugin marketplace list`, refresh the
   marketplace, and retry `codex plugin add`.

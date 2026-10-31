@@ -1,7 +1,7 @@
 {
-  "name": "cfmoon-svgator",
+  "name": "cfmoon-software",
   "interface": {
-    "displayName": "CFMoon SVGator"
+    "displayName": "CFMoon Software"
   },
   "plugins": [
     {
