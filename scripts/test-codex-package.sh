@@ -5,18 +5,18 @@ set -euo pipefail
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 codex_dir="$repo_dir/codex"
 
-for tool in cmp jq; do
-  if ! command -v "$tool" >/dev/null 2>&1; then
-    printf 'Missing Codex test dependency: %s\n' "$tool" >&2
-    exit 1
-  fi
-done
+if ! command -v jq >/dev/null 2>&1; then
+  printf '%s\n' 'Missing Codex test dependency: jq' >&2
+  exit 1
+fi
 
 test -f "$codex_dir/plugin.json"
 test -f "$codex_dir/mcp.json"
 test -f "$codex_dir/.codex-plugin/plugin.json"
 test -f "$repo_dir/.agents/plugins/marketplace.json"
 test ! -e "$codex_dir/.app.json"
+
+bash "$repo_dir/scripts/sync-plugin-targets.sh" --check
 
 expected_paths=$(printf '%s\n' \
   .codex-plugin/plugin.json \
@@ -82,12 +82,6 @@ jq -e '
   (.extensions["com.openai"] | has("apps") | not) and
   .extensions["com.openai"].onboardingSkill == "./skills/svgator-setup/SKILL.md"
 ' "$codex_dir/plugin.json" >/dev/null
-
-cmp "$repo_dir/assets/cfmoon-svgator-animations.png" \
-  "$codex_dir/assets/cfmoon-svgator-animations.png"
-for skill in svgator-animate svgator-audit; do
-  cmp "$repo_dir/skills/$skill/SKILL.md" "$codex_dir/skills/$skill/SKILL.md"
-done
 
 for skill in svgator-animate svgator-audit svgator-setup; do
   grep -Fq 'value: "svgator"' "$codex_dir/skills/$skill/agents/openai.yaml"

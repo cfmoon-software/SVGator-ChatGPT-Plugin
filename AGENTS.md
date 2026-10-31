@@ -17,14 +17,18 @@ user's ChatGPT App reference.
 - `README.md` is authoritative for the user-facing setup and test flow.
 - `plugin.json` owns the portable plugin identity, version, publisher metadata,
   presentation, and private App dependency declaration.
-- `.codex-plugin/plugin.json` is a compatibility manifest. Keep its repeated
-  identity, version, presentation, and App dependency synchronized with the
-  root manifest.
+- `assets/cfmoon-svgator-animations.png` and the root animation and audit skills
+  are canonical shared sources.
+- `config/codex-plugin-overrides.json` owns the Codex identity and presentation
+  values that intentionally differ from the root manifest.
+- `scripts/sync-plugin-targets.sh` generates the root compatibility manifest,
+  both Codex manifests, and the shared Codex icon, animation, and audit files.
+  The generated files remain committed for zero-build installation.
 - `scripts/prepare-chatgpt-plugin.sh` is the only supported package builder.
 - `scripts/test-package.sh` is the portable validation suite used by CI and Nix.
-- `codex/plugin.json` owns the Codex plugin identity and OpenAI presentation.
 - `codex/mcp.json` owns the single direct SVGator MCP connection used by Codex.
-- `codex/.codex-plugin/plugin.json` is the Codex compatibility manifest.
+- The Codex setup skill, its agent metadata, and `codex/README.md` are
+  host-owned rather than generated.
 - `.agents/plugins/marketplace.json` exposes the Codex target to the repository
   marketplace.
 - `scripts/test-codex-package.sh` validates the Codex package and marketplace.
@@ -66,9 +70,9 @@ user's ChatGPT App reference.
 
 1. Inspect the working tree and preserve unrelated user work.
 2. Make the smallest change needed in the repository source.
-3. When ChatGPT identity, display metadata, or version changes, update both
-   root manifests. When Codex metadata changes, update both Codex manifests.
-   Keep target versions aligned for a shared release.
+3. Edit canonical sources and target overrides, then run
+   `scripts/sync-plugin-targets.sh`. Do not hand-edit generated files. Keep
+   target versions aligned for a shared release.
 4. Keep `README.md` instructions aligned with actual script behavior.
 5. Run the focused checks below with synthetic data. They validate both host
    targets.
@@ -88,8 +92,8 @@ bash scripts/test-package.sh
 
 Inspect archive paths without printing `.app.json`. The test asserts the exact
 ten-file ChatGPT allowlist, the eleven-file Codex allowlist, synchronized
-manifests, ID normalization, marketplace and OAuth/DCR configuration, and safe
-failures.
+generated files, ID normalization, marketplace and OAuth/DCR configuration,
+and safe failures.
 
 ## Release discipline
 

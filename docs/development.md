@@ -1,7 +1,6 @@
 # Development and package structure
 
-This repository contains two host-specific targets built around the same three
-SVGator workflows:
+This repository contains two host-specific targets built from shared sources:
 
 - The repository root is the neutral ChatGPT source template. Each ChatGPT
   installer registers their own SVGator App and generates a personalized ZIP.
@@ -15,17 +14,19 @@ Never commit or distribute a personalized ChatGPT ZIP.
 | Path | Purpose |
 | --- | --- |
 | `plugin.json` | Root plugin metadata and OpenAI App reference declaration |
-| `.codex-plugin/plugin.json` | Compatibility metadata for plugin import |
+| `.codex-plugin/plugin.json` | Generated ChatGPT compatibility manifest |
 | `skills/svgator-animate/` | SVGator animation authoring and editing guidance |
 | `skills/svgator-audit/` | Read-only project and template inspections |
 | `skills/svgator-setup/` | Read-only SVGator authentication verification |
 | `assets/cfmoon-svgator-animations.png` | Proprietary CFMoon plugin icon |
 | `assets/signal-strike-demo.gif` | README demonstration, not packaged in the private ZIP |
 | `scripts/prepare-chatgpt-plugin.sh` | Generates the personalized private ZIP |
+| `scripts/sync-plugin-targets.sh` | Renders committed host files from shared sources |
+| `config/codex-plugin-overrides.json` | Codex identity and presentation differences |
 | `scripts/test-package.sh` | Portable manifest, safety and build contract tests |
 | `flake.nix` | Nix developer shell and the same reproducible test suite |
 | `.github/workflows/validate.yml` | CI for pull requests and changes to `main` |
-| `codex/` | Self-contained Codex plugin with direct SVGator OAuth/DCR MCP configuration |
+| `codex/` | Committed, self-contained Codex plugin generated partly from shared sources |
 | `.agents/plugins/marketplace.json` | Repository marketplace entry for Codex installation |
 | `scripts/test-codex-package.sh` | Codex manifests, marketplace, MCP and file-contract checks |
 
@@ -64,13 +65,14 @@ bash scripts/test-package.sh
 ```
 
 Tests use only synthetic `asdk_app_Test123` identifiers. They verify
-Bash/ShellCheck syntax, shared metadata consistency across both manifests,
+Bash/ShellCheck syntax, generated-file synchronization,
 the precise ten-file allowlist, normalization of the optional `plugin_`
 App ID prefix, rejection of invalid identifiers, mismatched versioned ZIP
 names, and refusal to overwrite existing packages. The same suite also checks
 the Codex target's eleven-file allowlist, direct OAuth/DCR MCP declaration,
 marketplace entry, manifest synchronization, absence of ChatGPT App IDs, and
-shared icon and workflow files.
+shared icon and workflow files. A negative fixture confirms that `--check`
+rejects stale generated output without mutating the checkout.
 
 The test does not contact SVGator, ChatGPT, or Codex, and passing it does **not**
 establish that authentication, animation playback, or exporting works.
@@ -95,22 +97,24 @@ testing this target.
 ## Making changes
 
 1. Work on a feature branch. Preserve existing App and OAuth security rules.
-2. Edit the ChatGPT source files in `skills/` rather than a generated ZIP.
-   Keep the portable animation and audit workflows synchronized with their
-   copies under `codex/skills/`; the two setup skills intentionally differ by
-   host.
-3. For ChatGPT metadata or version changes, update both root manifests. For
-   Codex metadata changes, update both manifests under `codex/`. Keep target
-   versions aligned for a shared release.
-4. Keep README and these documentation pages aligned with supported commands.
-5. Run `bash scripts/test-package.sh` or `nix flake check`.
-6. Open a pull request and review GitHub Actions checks before merging.
-7. Test ChatGPT and Codex installation and a harmless authenticated SVGator
+2. Edit `plugin.json`, the root icon, and the root animation or audit skill as
+   their canonical sources. Edit `config/codex-plugin-overrides.json` only for
+   Codex-specific identity or presentation changes.
+3. Edit `codex/mcp.json`, the Codex setup skill and agent, and
+   `codex/README.md` directly; those files are intentionally host-owned.
+4. Run `bash scripts/sync-plugin-targets.sh`. Do not hand-edit the generated
+   compatibility manifests or the generated Codex icon, animation, and audit
+   files. Commit the generated results so marketplace installs need no build.
+5. Keep README and these documentation pages aligned with supported commands.
+6. Run `bash scripts/test-package.sh` or `nix flake check`.
+7. Open a pull request and review GitHub Actions checks before merging.
+8. Test ChatGPT and Codex installation and a harmless authenticated SVGator
    read separately.
 
 ## Release procedure
 
-1. Bump semantic version in both manifests and document behavior changes.
+1. Bump semantic version in `plugin.json`, update any target-specific metadata,
+   run the synchronization script, and document behavior changes.
 2. Confirm the CI checks pass on the proposed release commit.
 3. Build a **neutral monorepo source archive** with the repository files,
    including `LICENSE` and `assets/README.md`. Do not include personalized

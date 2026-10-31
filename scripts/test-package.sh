@@ -5,7 +5,7 @@ set -euo pipefail
 
 repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 
-for tool in jq shellcheck zip unzip; do
+for tool in cmp jq shellcheck zip unzip; do
   if ! command -v "$tool" >/dev/null 2>&1; then
     printf 'Missing test dependency: %s\n' "$tool" >&2
     exit 1
@@ -28,6 +28,8 @@ bash -n "$repo_dir/scripts/test-package.sh"
 shellcheck "$repo_dir/scripts/test-package.sh"
 bash -n "$repo_dir/scripts/test-codex-package.sh"
 shellcheck "$repo_dir/scripts/test-codex-package.sh"
+bash -n "$repo_dir/scripts/sync-plugin-targets.sh"
+shellcheck "$repo_dir/scripts/sync-plugin-targets.sh"
 
 # Verify all portable metadata duplicated across the two different manifest layouts.
 jq -e 'type == "object" and (.name | type == "string") and (.version | type == "string")' \
@@ -58,6 +60,17 @@ test "$plugin_name" = 'cfmoon-svgator-animations-chatgpt'
 
 work_dir=$(mktemp -d "${TMPDIR:-/tmp}/cfmoon-plugin-test.XXXXXX")
 trap 'rm -rf -- "$work_dir"' EXIT
+
+# Prove drift detection without changing the checkout under test.
+cp -R -- "$repo_dir" "$work_dir/stale-repo"
+chmod -R u+w -- "$work_dir/stale-repo"
+printf '\n# intentional stale fixture\n' \
+  >> "$work_dir/stale-repo/codex/skills/svgator-animate/SKILL.md"
+if bash "$work_dir/stale-repo/scripts/sync-plugin-targets.sh" --check \
+  >/dev/null 2>&1; then
+  printf '%s\n' 'Target synchronization check accepted a stale generated file.' >&2
+  exit 1
+fi
 
 builder="$repo_dir/scripts/prepare-chatgpt-plugin.sh"
 archive="$work_dir/current/$plugin_name-$plugin_version.zip"

@@ -8,8 +8,6 @@
 This community plugin combines [SVGator's official MCP server](https://github.com/SVGator/mcp) with three CFMoon skills: one for animation authoring, one for read-only project audits, and one for connection verification. It lets you work conversationally in ChatGPT and then open the same project in SVGator's browser editor for finishing touches.
 
 > **Independent integration.** Built by CFMoon Software. Not an official SVGator plugin and not affiliated with or endorsed by SVGator.
->
-> **Installation status:** Codex users install the repository's neutral plugin and authorize SVGator directly. ChatGPT web users create a private App-backed ZIP with their own registered App ID. This is **not** an official or public SVGator integration.
 
 ## What can it do?
 
@@ -44,34 +42,20 @@ ChatGPT or Codex
 
 The plugin **does not host, replace, or redistribute** SVGator's MCP server. It adds repeatable workflows around the server you authorize in your own account.
 
-## Install in Codex
+## Use with Codex
 
-You'll need a **SVGator account** and a Codex client with plugin support. Plugins
-can be installed through Codex CLI or the ChatGPT desktop app; they are not
-currently available in the IDE extension.
-
-Register this repository as a marketplace and install its Codex target:
+Register this repository as a marketplace, then install its Codex target:
 
 ```sh
 codex plugin marketplace add cfmoon-software/SVGator-ChatGPT-Plugin
 codex plugin add cfmoon-svgator-animations@cfmoon-svgator
 ```
 
-Start a fresh Codex conversation after installation. Complete SVGator's secure
-OAuth flow when Codex prompts you, then ask:
+See the [complete Codex installation and maintenance guide](codex/README.md)
+for requirements, checkout-based installation, SVGator authorization, updates,
+uninstallation, and troubleshooting.
 
-> Verify my SVGator connection without creating, editing, or exporting any projects.
-
-The Codex package already declares `https://mcp.svgator.com/mcp`. Do not add the
-same endpoint separately with `codex mcp add`; duplicate declarations can cause
-duplicate tools and sign-in prompts. The Codex package contains no ChatGPT App
-ID or account credential. If you previously installed
-`cfmoon-svgator-animations` from another local marketplace, disable or remove
-that older package before enabling this one.
-
-For local development from a checkout, see [Development and package structure](docs/development.md).
-
-## Install in ChatGPT
+## Use with ChatGPT
 
 You'll need a **SVGator account**, access to **custom MCP connections in ChatGPT**, permission to install or import a **private plugin**, and a terminal with **Bash**, **jq**, and **zip**. ChatGPT menus and installation permissions vary by account and workspace.
 
@@ -96,7 +80,7 @@ Open the newly created SVGator connection's details. Copy its **technical App ID
 
 Depending on the interface, it may look like `asdk_app_...` or `plugin_asdk_app_...`. The preparation script accepts either form and normalizes the value for the package.
 
-This ID is a reference to **your registered ChatGPT App**. It is not an OAuth access token, but your personalized package should remain private.
+This ID is a reference to **your registered ChatGPT App**. It is not an OAuth access token, but the ZIP generated from it is personalized and should remain private.
 
 ### 3. Build your private plugin ZIP
 
@@ -111,7 +95,9 @@ chmod +x ./scripts/prepare-chatgpt-plugin.sh
 
 Replace the example with your real App ID. If the script succeeds, it creates a **versioned private ZIP** in `./export/` (for this release, `cfmoon-svgator-animations-chatgpt-0.4.0.zip`).
 
-**Important:** A ZIP downloaded directly from GitHub is only a *template*. It does not contain your personal `.app.json` connection binding and is not the final plugin to import. The preparation script builds that final archive locally.
+A ZIP downloaded directly from GitHub is the reusable source template, not the
+personalized plugin to import. The preparation script builds the importable
+archive locally.
 
 ### 4. Install the generated ZIP in ChatGPT
 
@@ -146,17 +132,17 @@ We used the integration to create and refine **SIGNAL STRIKE**, a reusable cyber
 
 ## Documentation
 
+- [Codex installation and maintenance](codex/README.md) — marketplace and checkout installation, authorization, updates, and troubleshooting.
 - [Development and package structure](docs/development.md) — source files, build contract, Nix, and release checks.
 - [Troubleshooting](docs/troubleshooting.md) — connection failures, import issues, and authentication.
 - [Updating](docs/updating.md) — rebuilding and upgrading a private installation without losing the existing App binding.
 
 ## Security and privacy
 
-- **Never share** OAuth tokens, passwords, cookies, client secrets, or personalized plugin ZIPs.
-- The ChatGPT template intentionally omits `.app.json`, actual App IDs, OAuth credentials, and root-level `mcp.json`. The separate `codex/` target contains only a neutral MCP endpoint and OAuth/DCR declaration—never credentials.
-- The preparation script creates the App binding **inside your locally generated archive**.
-- Don't print `.app.json` in screenshots, terminal logs, or public support requests.
-- SVGator authentication is handled through the host's registered or packaged MCP connection, not by the CFMoon repository.
+- Never share OAuth tokens, passwords, cookies, client secrets, `.app.json`, or
+  personalized plugin ZIPs.
+- The repository contains no account credentials. SVGator authentication is
+  handled by each host through the connection the user authorizes.
 
 ## License
 

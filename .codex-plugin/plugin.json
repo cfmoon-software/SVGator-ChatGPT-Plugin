@@ -26,8 +26,8 @@
   "version": "0.4.0",
   "description": "Create, inspect, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
   "author": {
-    "name": "CFMoon",
     "email": "business@cfmoon.net",
+    "name": "CFMoon",
     "url": "https://cfmoon.net"
   },
   "keywords": [

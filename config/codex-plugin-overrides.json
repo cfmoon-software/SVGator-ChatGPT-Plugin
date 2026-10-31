@@ -1,0 +1,6 @@
+{
+  "name": "cfmoon-svgator-animations",
+  "description": "Create, inspect, audit, refine, and export editable SVG animations through SVGator's hosted MCP server. Developed and maintained by CFMoon; not an official SVGator plugin.",
+  "displayName": "CFMoon SVGator Animations",
+  "longDescription": "Create, inspect, audit, refine, and export editable SVG animations through SVGator's hosted MCP server. Connect your own SVGator account through Codex's secure OAuth flow. Projects remain editable in SVGator, and available export formats depend on the connected account's permissions. Developed and maintained by CFMoon as an independent integration; not affiliated with or endorsed by SVGator."
+}
